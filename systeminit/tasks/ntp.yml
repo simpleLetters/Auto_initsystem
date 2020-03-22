@@ -1,0 +1,24 @@
+- name: install ntp server
+  package:
+    name: ntp
+    state: present
+    
+- name: start ntp server
+  systemd:
+    name: ntpd
+    state: started
+- name: delete  /etc/localtime
+  file:
+    name:  /etc/localtime
+    state: absent
+
+- name: link /usr/share/zoneinfo/Asia/Shanghai to /etc/localtime
+  file:
+    src: /usr/share/zoneinfo/Asia/Shanghai
+    dest: /etc/localtime
+    state: link
+- name: sync time
+  cron:
+    minute="*/5"
+    user=root
+    job="ntpdate  {{ NtpServer }}  >> /root/Systime"

@@ -1,0 +1,4 @@
+options timeout:2 attempts:3 rotate single-request-reopen
+{% for name in NameServers -%}
+nameserver {{ name }}
+{% endfor -%}

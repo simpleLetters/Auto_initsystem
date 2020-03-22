@@ -1,0 +1,5 @@
+NtpServer: ntp1.aliyun.com
+NameServers:
+  - 223.5.5.5
+  - 223.6.6.6
+

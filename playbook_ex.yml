@@ -1,0 +1,4 @@
+- hosts: hostname or host Ip
+  become: true
+  roles:
+    - role: systeminit

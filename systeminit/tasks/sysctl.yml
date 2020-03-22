@@ -1,0 +1,23 @@
+- name: cp sysctl_config.sh to /tmp
+  copy:
+    src: sysctl_config.sh
+    dest: /tmp/sysctl_config.sh
+    owner: root
+    group: root
+    mode: 0755
+
+- name: run sysctl_config.sh
+  shell: /tmp/sysctl_config.sh
+  ignore_errors: True
+
+- name: delete sysctl_config.sh
+  file:
+    path: /tmp/sysctl_config.sh
+    state: absent
+- name: config limit.conf
+  file:
+    path: limits.conf
+    dest: /etc/security/limits.conf
+    owner: root
+    group: root
+    mode: 0755

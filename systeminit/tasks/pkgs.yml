@@ -1,0 +1,12 @@
+- name: install base packages on Centos or redhat
+  package: 
+    name: "{{ pkgs.Centos }}"
+    state: present
+  ignore_errors: True
+  when:  ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
+- name:  install base packages on Ubuntu
+  package:
+    name: "{{ pkgs.Ubuntu }}"
+    state: present
+  ignore_errors: True
+  when: ansible_distribution =="Ubuntu" 

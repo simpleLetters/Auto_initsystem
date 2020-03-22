@@ -1,0 +1,43 @@
+- name: check selinux state
+  shell:  /usr/sbin/getenforce --even-in-check-mode
+  check_mode: no
+  register: result
+  when: ansible_distribution == "CentOS"
+
+- name: sure /etc/selinux/ directory
+  file: 
+    path: /etc/selinux/
+    state: directory
+    owner: root
+    group: root
+  when: ansible_distribution == "CentOS"
+
+- name: configure selinux 
+  copy:
+    src: selinux
+    dest: /etc/selinux/config
+    owner: root
+    group: root
+    mode: 0644
+  when:  ansible_distribution == "CentOS" and   result.stdout != "Disabled"
+
+- name: tmp configure selinux
+  shell: /usr/sbin/setenforce  0 
+  when:  ansible_distribution == "CentOS" and result.stdout  != "Disabled" 
+- name: stopped firewalld service
+  systemd:
+    name: firewalld
+    state: stopped
+  when:  ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
+- name: install iptables service
+  package: 
+    name: iptables-services 
+    state: present
+  when:  ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
+
+- name: iptables flush filter
+  iptables:
+    chain: "{{ item }}"
+    flush: yes
+  loop:  [ 'INPUT', 'FORWARD' ,'OUTPUT' ]  
+

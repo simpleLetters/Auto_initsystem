@@ -1,0 +1,9 @@
+- name: set  nameserver 
+  template:
+      src: resolv.conf.j2
+      dest: /etc/resolv.conf
+      mode: 0644
+      owner: root
+      group: root
+  when: ansible_distribution == "CentOS"
+  #when: ansible_distribution == "Centos" or ansible_distribution == "Redhat"
