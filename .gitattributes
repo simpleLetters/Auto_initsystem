@@ -1,0 +1,3 @@
+*.js linguist-language=ansible
+*.css linguist-language=ansible
+*.html linguist-language=ansible
